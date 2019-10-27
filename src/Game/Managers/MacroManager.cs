@@ -596,7 +596,7 @@ namespace ClassicUO.Game.Managers
                     if (spell > 0 && spell <= 151)
                     {
                         int totalCount = 0;
-                        int spellType = 0;
+                        int spellType;
 
                         for (spellType = 0; spellType < 7; spellType++)
                         {
@@ -608,6 +608,7 @@ namespace ClassicUO.Game.Managers
 
                         if (spellType < 7)
                         {
+                            spell -= totalCount - _spellsCountTable[spellType];
                             spell += spellType * 100;
 
                             if (spellType > 2)
@@ -661,7 +662,7 @@ namespace ClassicUO.Game.Managers
                         Item itemInRightHand = World.Player.Equipment[(int)Layer.TwoHanded];
                         if (itemInRightHand != null)
                             GameActions.DoubleClick(itemInRightHand.Serial);
-                        }
+                    }
 
                     break;
 
@@ -1093,10 +1094,11 @@ namespace ClassicUO.Game.Managers
                         GameActions.DoubleClick(potion);
 
                     break;
-                    
-                 case MacroType.CloseAllHealthBars:
 
-                    var healthBarGumps = Engine.UI.Gumps.OfType<HealthBarGump>();
+                case MacroType.CloseAllHealthBars:
+
+                    //Includes HealthBarGump/HealthBarGumpCustom
+                    var healthBarGumps = Engine.UI.Gumps.OfType<BaseHealthBarGump>();
 
                     foreach (var healthbar in healthBarGumps)
                     {

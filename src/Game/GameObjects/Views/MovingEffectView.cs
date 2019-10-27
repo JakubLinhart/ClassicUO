@@ -50,9 +50,19 @@ namespace ClassicUO.Game.GameObjects
                 Bounds.Height = Texture.Height;
             }
 
-            Bounds.X = (int) -Offset.X + 22;
-            Bounds.Y = (int) (Offset.Z - Offset.Y) + 22;
-            Rotation = AngleToTarget;
+            posX += (int) Offset.X;
+            posY = (int) ( posY + Offset.Y + Offset.Z);
+
+            //ArtTexture texture = (ArtTexture) Texture;
+
+            //posX += (texture.Width >> 1) - 22 - texture.ImageRectangle.X;
+            //posY += (texture.Height >> 0) - 44 - texture.ImageRectangle.Y;
+
+            //posX += 22;
+            //posY += 22;
+            //Bounds.X = (int) -Offset.X + 22;
+            //Bounds.Y = (int) (Offset.Z - Offset.Y) + 22;
+            //Rotation = AngleToTarget;
 
             if (Engine.Profile.Current.NoColorObjectsOutOfRange && Distance > World.ClientViewRange)
             {
@@ -68,7 +78,19 @@ namespace ClassicUO.Game.GameObjects
                 ShaderHuesTraslator.GetHueVector(ref HueVector, Hue);
 
             Engine.DebugInfo.EffectsRendered++;
-            base.Draw(batcher, posX, posY);
+
+            //base.Draw(batcher, posX, posY);
+            if (FixedDir)
+                batcher.DrawSprite(Texture, posX, posY, false, ref HueVector);
+            else
+                //batcher.Draw2D(Texture, posX, posY, Texture.Width, Texture.Height, 
+                //               posX + texture.ImageRectangle.X, posY + texture.ImageRectangle.Y, texture.ImageRectangle.Width, texture.ImageRectangle.Height,
+                //               ref HueVector,
+                //               AngleToTarget);
+                batcher.DrawSpriteRotated(Texture, posX, posY, ref HueVector, AngleToTarget);
+
+            Select(posX, posY);
+            Texture.Ticks = Engine.Ticks;
 
             ref readonly StaticTiles data = ref FileManager.TileData.StaticData[_displayedGraphic];
 

@@ -158,7 +158,10 @@ namespace ClassicUO.Network
             {
                 char c = (char) ReadByte();
                 if (c == '\0')
+                {
+                    Skip(length - i - 1);
                     break;
+                }
                 _sb.Append(c);
             }
 

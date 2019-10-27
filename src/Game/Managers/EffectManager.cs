@@ -59,6 +59,9 @@ namespace ClassicUO.Game.Managers
             if (hasparticles) Log.Message(LogTypes.Warning, "Unhandled particles in an effects packet.");
             GameEffect effect = null;
 
+            if (hue != 0)
+                hue++;
+
             switch (type)
             {
                 case GraphicEffectType.Moving:
@@ -72,7 +75,7 @@ namespace ClassicUO.Game.Managers
                     effect = new MovingEffect(source, target, srcPos.X, srcPos.Y, srcPos.Z, targPos.X, targPos.Y, targPos.Z, graphic, hue, fixedDir)
                     {
                         Blend = blendmode,
-                        MovingDelay = (byte) (speed)
+                        MovingDelay =  (byte) (20 / speed)
                     };
 
                     if (doesExplode)

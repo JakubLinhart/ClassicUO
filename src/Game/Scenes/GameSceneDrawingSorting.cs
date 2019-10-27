@@ -435,9 +435,12 @@ namespace ClassicUO.Game.Scenes
 
             int dropMaxZIndex = -1;
 
-            if (entity is Mobile mob && mob.IsMoving && (mob.Steps.Back().Direction & 7) == 2)
+            if (entity is Mobile mob && mob.Steps.Count != 0)
             {
-                dropMaxZIndex = 0;
+                ref var step = ref mob.Steps.Back();
+
+                if ((step.Direction & 7) == 2)
+                    dropMaxZIndex = 0;
             }
 
 
